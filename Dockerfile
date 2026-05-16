@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev \
     python3-tk \
     tk \
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Ustawienie katalogu roboczego

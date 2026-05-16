@@ -46,5 +46,6 @@ Then start the container:
 ```bash
 docker run -it --rm \
   -e DISPLAY=docker.for.mac.host.internal:0 \
+  -v "$HOME/Projects/drone-aruco-localization/data/raw:/data/raw" \
   drone-aruco-localization
 ```
