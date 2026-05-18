@@ -2,4 +2,5 @@ opencv-python
 numpy
 matplotlib
 pyyaml
+openpyxl
 pytest
