@@ -30,6 +30,56 @@ Example
 cp /path/to/your/videos/*.MP4 data/raw/
 ```
 
+## Position estimation
+
+Install dependencies (from the project root):
+
+```bash
+pip install -r requirements.txt
+```
+
+Run localization on a video and write a per-frame trajectory CSV (ArUco estimate vs mocap reference when `--mocap` is provided):
+
+```bash
+python src/estimate_position.py \
+  --video data/raw/GX010280.MP4 \
+  --markers data/raw/ArUco_markers_3D.xlsx \
+  --mocap data/raw/GX010280_U.csv
+```
+
+Output (default): `data/processed/<video_stem>_trajectory.csv` with columns `est_x_mm`, `est_y_mm`, `est_z_mm`, `ref_x_mm`, `ref_y_mm`, `ref_z_mm`, and `error_mm`.
+
+## Compare positions (charts)
+
+Generate comparison plots from a trajectory CSV produced by `estimate_position.py`:
+
+```bash
+python src/plot_trajectory.py --input data/processed/GX010280_trajectory.csv
+```
+
+This writes two PNG files under `data/processed/`:
+
+| File | Description |
+|------|-------------|
+| `<stem>_comparison.png` | X, Y, Z vs frame (ArUco vs mocap) and 3D position error |
+| `<stem>_comparison_3d.png` | Overlaid 3D trajectories |
+
+Useful options:
+
+```bash
+# Custom output path
+python src/plot_trajectory.py --input data/processed/GX010280_trajectory.csv \
+  --output data/processed/my_comparison.png
+
+# Interactive window (no files saved unless --output is set)
+python src/plot_trajectory.py --input data/processed/GX010280_trajectory.csv --show
+
+# Stricter outlier filter (default: hide frames with error > 500 mm)
+python src/plot_trajectory.py --input data/processed/GX010280_trajectory.csv --max-error-mm 300
+```
+
+Failed pose estimates (very large coordinates or errors) are omitted from the ArUco curves so the scale stays readable; mocap reference is still shown for all frames.
+
 ## Build and Run Docker container
 
 To build the Docker image based on the provided Dockerfile, run:
