@@ -5,6 +5,7 @@ import sys
 import cv2
 
 from VideoPlayer import VideoPlayer
+from ArUco import ArUco
 
 # Podając ścieżkę bezpośrednio
 print(os.listdir())
@@ -14,20 +15,12 @@ sciezka = sys.argv[1] if len(sys.argv) > 1 else "/data/raw/GX010280.MP4"
 player = VideoPlayer(sciezka)
 player.pokaz_info()
 
-# --- Przykładowy callback z detekcją ArUco ---
-aruco_dict   = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_250)
-aruco_params = cv2.aruco.DetectorParameters()
-detector     = cv2.aruco.ArucoDetector(aruco_dict, aruco_params)
+# Bez kalibracji — tylko detekcja i rysowanie ramek
+detector = ArUco(slownik=cv2.aruco.DICT_6X6_250)
+player.odtwarzaj(callback=detector.callback)
 
-def wykryj_aruco(klatka: np.ndarray) -> np.ndarray:
-    szara = cv2.cvtColor(klatka, cv2.COLOR_BGR2GRAY)
-    narozniki, ids, odrzucone = detector.detectMarkers(szara)
-    if ids is not None:
-        print(f"Wykryto markery ArUco: {ids.flatten()}")
-        cv2.aruco.drawDetectedMarkers(klatka, narozniki, ids)
-    return klatka
-
-player.odtwarzaj(callback=wykryj_aruco)
+# Zapis wyników do CSV
+detector.eksportuj_do_csv("/data/raw/aruco_wyniki.csv")
 
 xpoints = np.array([1, 8])
 ypoints = np.array([3, 10])
