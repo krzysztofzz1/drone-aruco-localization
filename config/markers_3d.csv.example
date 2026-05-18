@@ -1,0 +1,5 @@
+# Upper-right corner of each ArUco marker in the world coordinate system (mm).
+# Copy to data/raw/markers_3d.csv (or pass --markers) and fill with your sequence values.
+marker_id,x_mm,y_mm,z_mm
+1,0,0,0
+2,0,0,0

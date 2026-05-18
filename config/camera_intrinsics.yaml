@@ -1,0 +1,19 @@
+# GoPro FPV camera (DPJAIT R16/R17/R18 sequences, Nature Sci Data 2025).
+# Distances in millimeters. Angles in degrees where noted.
+#
+# Reference: FoVx=92.45°, FoVy=60.83°, resolution 3840x2160.
+# If your MP4 is scaled (e.g. 1920x1080), set scale_intrinsics_to_video: true.
+
+image_width: 3840
+image_height: 2160
+fov_x_deg: 92.45
+fov_y_deg: 60.83
+
+# Optional OpenCV distortion coefficients [k1, k2, p1, p2, k3]
+distortion: [0.0, 0.0, 0.0, 0.0, 0.0]
+
+# When true, fx/fy/cx/cy are scaled to match the opened video resolution.
+scale_intrinsics_to_video: true
+
+video_fps: 25.0
+mocap_fps: 100.0
